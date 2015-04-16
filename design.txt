@@ -1,0 +1,8 @@
+Business Catty Reqs:
+
+1. Send ready message / Get other ready users
+2. Render lobby
+3. Form group
+4. Start match
+5. Run match loop
+6. Record result
