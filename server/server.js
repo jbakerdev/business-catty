@@ -60,12 +60,3 @@ wsServer.on('request', function(request) {
   });
 
 });
-
-var connect = require('connect'),
-  serveStatic = require('serve-static'),
-  serveIndex = require('serve-index');
-
-var app = connect()
-  .use(serveStatic('/Users/pairing/projects/churro/pages/businessCatty/sounds'))
-  .use(serveIndex('/Users/pairing/projects/churro/pages/businessCatty/sounds', {'icons': true, 'view': 'details'}))
-  .listen(7777);

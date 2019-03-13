@@ -1,11 +1,12 @@
-var BusinessCatty = require('promise?global,businesscatty!./BusinessCatty');
+import React from 'react'
+import thunkMiddleware from 'redux-thunk'
+import ReactDom from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import appReducer from './client/components/uiManager/UIManagerReducer.js'
+import App from './client/App.jsx'
 
-module.exports = {
-    matches(slug, context) {
-        return slug === '/businesscatty';
-    },
+let store = createStore(appReducer, applyMiddleware(
+    thunkMiddleware // lets us dispatch() functions
+));
 
-    initPage(navState, almEnvironment) {
-        return BusinessCatty().then(businessCatty => new businessCatty(navState, almEnvironment).init());
-    }
-};
+ReactDom.render(<App store={store} />, document.getElementById('appRoot'));
