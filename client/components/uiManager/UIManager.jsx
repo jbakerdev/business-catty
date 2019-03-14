@@ -10,12 +10,25 @@ export default class UIManager extends React.Component {
         this.props.onInitServer(this.props)
     }
 
+    getComponent = () => {
+        if(!this.props.currentUser){
+            return <Login {...this.props}/>
+        }
+        else {
+            if(this.props.activeSession && !this.props.activeSession.isStarted){
+                return <Lobby activeSession={this.props.activeSession} currentUser={this.props.currentUser}/>
+            }
+            if(this.props.activeSession && this.props.activeSession.isStarted){
+                return <Match activeSession={this.props.activeSession} currentUser={this.props.currentUser}/>
+            }
+        }
+    }
+
     render(){
         return (
             <div style={styles.frame}>
-                {!this.props.currentUser && <Login {...this.props}/>}
-                {this.props.currentUser && !this.props.activeSession.isStarted && <Lobby currentUser={currentUser}/>}
-                {this.props.currentUser && this.props.activeSession && <Match activeSession={this.props.activeSession} currentUser={this.props.currentUser}/>}
+                {this.getComponent()}
+                <div>Sessions: {this.props.activeSessions.length}</div>
                 <div style={{...styles.dot, backgroundColor: this.props.isConnected ? 'green': 'red'}}/>
             </div>
         )

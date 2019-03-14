@@ -12,16 +12,17 @@ export const login = (currentUser, sessionName, sessions, server) => {
                 isStarted:false
             }
         }
-        server.publishMessage(payload)
+        server.broadcastMessage(payload, 5000)
         payload.type = Constants.ReducerActions.MATCH_AVAILABLE_AND_JOIN
     }
     else {
         payload = {
-            type: Constants.ReducerActions.PLAYER_JOIN,
+            type: Constants.ReducerActions.PLAYER_ENTERED,
             currentUser,
             sessionName
         }
         server.publishMessage(payload)
+        payload.type = Constants.ReducerActions.PLAYER_JOIN
     }
 
     return payload

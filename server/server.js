@@ -43,11 +43,11 @@ wsServer.on('request', function(request) {
         // broadcast message to all connected clients except self
         var json = JSON.stringify({ type:'message', data: message });
         for (var i=0; i < clients.length; i++) {
-          if(clients[i].remoteAddress !== connection.remoteAddress){
+          if(clients[i].socket.remotePort !== connection.socket.remotePort){
             console.log((new Date()) + ' ' + message.utf8Data);
             clients[i].sendUTF(json);
           }
-          else console.log('message to self was ignored.')
+          else console.log('message to self was ignored')
         }
     }
   });
@@ -55,7 +55,7 @@ wsServer.on('request', function(request) {
   // user disconnected
   connection.on('close', function(connection) {
       console.log((new Date()) + " Peer "
-      + connection.remoteAddress + " disconnected.");
+      + connection.socket.remotePort + " disconnected.");
       // remove user from the list of connected clients
       clients.splice(index, 1);
   });
