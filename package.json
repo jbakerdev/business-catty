@@ -1,21 +1,24 @@
 {
-  "name": "text-plus",
+  "name": "buisness-catty",
   "version": "0.0.1",
-  "description": "text adventures plus",
+  "description": "buisness training",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack --watch"
   },
   "babel": {
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
     ],
-    "plugins": ["@babel/plugin-proposal-class-properties"]
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
   },
   "dependencies": {
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
+    "http": "0.0.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-redux": "^4.4.9",
@@ -23,7 +26,8 @@
     "redux-thunk": "^1.0.3",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "websocket": "^1.0.28"
   },
   "author": "jbaker",
   "license": "ISC",

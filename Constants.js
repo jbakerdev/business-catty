@@ -1,46 +1,23 @@
-var keyMirror = require('keymirror');
+export default {
+  ApiUrl: 'ws://localhost:1337',
 
-module.exports = {
-
-  ActionTypes: keyMirror({
-
-    CREATED_MATCH: 'cm',
-    SELECTED_MATCH: 'sm',
-    MATCH_READY: 'mr',
+  ReducerActions: {
     MATCH_AVAILABLE: 'ma',
-    JOINED_MATCH: 'jm',
-    UPDATE_MATCH: 'um',
-    DELETE_MATCH: 'dm',
+    MATCH_AVAILABLE_AND_JOIN: 'maj',
+    PLAYER_READY: 'pr',
+    PLAYER_ENTERED: 'pe',
+    PLAYER_JOIN: 'pj',
+    PLAYER_LEFT: 'pl',
+    NEW_PHRASE: 'np',
     MATCH_START: 'ms',
-    CREATE_NEW_PLAYER: 'cnp',
-    DELETE_PLAYER: 'dp',
-    START_TIMER_TICK: 'st',
-    PHRASE_TIMER_TICK: 'ptt',
-    CORRECT_ANSWER: 'cat',
-    SEND_CORRECT_ANSWER: 'mak',
-    GAME_TIMER_TICK: 'gat',
-    GET_NEXT_PHRASES: 'gnp',
-    TIMER_UPDATE: 'tup',
-    RECEIVED_FOREIGN_CORRECT_ANSWER: 'uriehg',
-    DISABLE_JOIN_BUTTON: 'djb'
-  }),
-
-  ControlTypes: {
-    LIST: 0,
-    BUTTON: 1,
-    BUTTON_STRIP: 2,
-    TEXT_FIELD: 3,
-    DROP_DOWN: 4
+    MATCH_END: 'me',
+    PHRASE_CORRECT: 'pc',
+    TIMER_TICK:'tt',
+    INIT_SERVER: 'is',
+    CONNECTION_ERROR: 'ce',
+    CONNECTED: 'c',
+    SET_USER: 'su'
   },
-
-  AnswerStyles: [
-    'primary',
-    'success',
-    'danger',
-    'info'
-  ],
-
-  FileServerIP: '10.32.32.156',
 
   Phrases: [
     'Synergize the paradigm',

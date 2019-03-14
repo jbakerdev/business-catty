@@ -26,8 +26,8 @@ var wsServer = new WebSocketServer({
 // This callback function is called every time someone
 // tries to connect to the WebSocket server
 wsServer.on('request', function(request) {
-  console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
-
+  console.log((new Date()) + ' Connection from origin ' + request.host + '.');
+  
   // accept connection - you should check 'request.origin' to make sure that
   // client is connecting from your website
   // (http://en.wikipedia.org/wiki/Same_origin_policy)
@@ -40,13 +40,14 @@ wsServer.on('request', function(request) {
   // user sent some message
   connection.on('message', function(message) {
     if (message.type === 'utf8') { // accept only text
-
-        console.log((new Date()) + ' ' + message.utf8Data);
-
-        // broadcast message to all connected clients
+        // broadcast message to all connected clients except self
         var json = JSON.stringify({ type:'message', data: message });
         for (var i=0; i < clients.length; i++) {
-          clients[i].sendUTF(json);
+          if(clients[i].remoteAddress !== connection.remoteAddress){
+            console.log((new Date()) + ' ' + message.utf8Data);
+            clients[i].sendUTF(json);
+          }
+          else console.log('message to self was ignored.')
         }
     }
   });
