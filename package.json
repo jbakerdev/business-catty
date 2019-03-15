@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "babel-loader": "^8.0.5",
+    "babel-polyfill": "^6.26.0",
     "css-loader": "^2.1.0",
     "http": "0.0.0",
     "react": "^16.8.3",

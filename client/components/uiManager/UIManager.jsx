@@ -28,7 +28,6 @@ export default class UIManager extends React.Component {
         return (
             <div style={styles.frame}>
                 {this.getComponent()}
-                <div>Sessions: {this.props.activeSessions.length}</div>
                 <div style={{...styles.dot, backgroundColor: this.props.isConnected ? 'green': 'red'}}/>
             </div>
         )

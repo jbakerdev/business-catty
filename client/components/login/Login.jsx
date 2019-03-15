@@ -1,4 +1,5 @@
 import React from 'react';
+import { onLogin } from '../uiManager/Thunks.js'
 
 export default class Login extends React.Component {
     state = { name: '', sessionName: ''}
@@ -10,7 +11,7 @@ export default class Login extends React.Component {
                 <input type="text" placeholder="Thought Leader" value={this.state.name} onChange={(e)=>this.setState({name:e.currentTarget.value})}/>
                 <div>Buisness Name:</div>
                 <input type="text" placeholder="CorpTron" value={this.state.sessionName} onChange={(e)=>this.setState({sessionName:e.currentTarget.value})}/>
-                <div onClick={()=>this.props.onLogin(getUser(this.state.name), this.state.sessionName, this.props.activeSessions, this.props.server)}>Go Do Buisness</div>
+                <div onClick={()=>onLogin(getUser(this.state.name), this.state.sessionName, this.props.server)}>Go Do Buisness</div>
             </div>
         )
     }

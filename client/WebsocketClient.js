@@ -6,7 +6,6 @@ export default class WebsocketClient {
         this.onConnected = args.onConnected
         this.onConnectionError = args.onConnectionError
         this.onWSMessage = args.onWSMessage
-        this.broadcastInterval
         this.launch(Constants.ApiUrl)
     }
 
@@ -22,10 +21,6 @@ export default class WebsocketClient {
             }
         }
     }
-    
-    cancelBroadcast = () => {
-      clearInterval(this.broadcastInterval)
-    }
 
     disconnect = () => {
         this.websocket.disconnect()
@@ -35,14 +30,6 @@ export default class WebsocketClient {
       var message = JSON.stringify(msg)
       if(message) {
           this.websocket.send(message);
-      }
-    }
-
-    broadcastMessage = (msg, interval) => {
-      clearInterval(this.broadcastInterval)
-      var message = JSON.stringify(msg)
-      if(message) {
-          this.broadcastInterval = setInterval(()=>this.websocket.send(message), interval)
       }
     }
 };

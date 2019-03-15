@@ -1,9 +1,9 @@
-export default {
+module.exports = {
   ApiUrl: 'ws://localhost:1337',
 
   ReducerActions: {
     MATCH_AVAILABLE: 'ma',
-    MATCH_AVAILABLE_AND_JOIN: 'maj',
+    MATCH_UPDATE: 'mu',
     PLAYER_READY: 'pr',
     PLAYER_ENTERED: 'pe',
     PLAYER_JOIN: 'pj',

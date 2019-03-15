@@ -8,13 +8,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onParseInput: (userInput, scene) => {
-            dispatch(parseInput(userInput, scene));
-        },
-        onLogin: (currentUser, sessionName, sessions, server) => {
-            dispatch(setUser(currentUser))
-            dispatch(login(currentUser, sessionName, sessions, server))
-        },
         onWSMessage: (data) => {
             dispatch(decodeWSMessage(data))
         },

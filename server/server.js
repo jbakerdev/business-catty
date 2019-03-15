@@ -1,5 +1,6 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
+var Constants = require('../Constants.js').ReducerActions
 
 /**
  * HTTP server
@@ -16,6 +17,7 @@ server.listen(1337, function() {
  */
 
 var clients = [];
+var sessions = [];
 
 var wsServer = new WebSocketServer({
   // WebSocket server is tied to a HTTP server. WebSocket request is just
@@ -40,24 +42,50 @@ wsServer.on('request', function(request) {
   // user sent some message
   connection.on('message', function(message) {
     if (message.type === 'utf8') { // accept only text
-        // broadcast message to all connected clients except self
-        var json = JSON.stringify({ type:'message', data: message });
-        for (var i=0; i < clients.length; i++) {
-          if(clients[i].socket.remotePort !== connection.socket.remotePort){
-            console.log((new Date()) + ' ' + message.utf8Data);
-            clients[i].sendUTF(json);
-          }
-          else console.log('message to self was ignored')
+        var obj = JSON.parse(message.utf8Data)
+        var targetSession = sessions[obj.sessionName]
+        switch(obj.type){
+          case Constants.MATCH_AVAILABLE:
+            if(targetSession){
+              targetSession.sockets.push(connection)
+              targetSession.players.push(obj.currentUser)
+            }
+            else
+              targetSession = {
+                sockets: [connection], 
+                players: [obj.currentUser], 
+                sessionName: obj.sessionName
+              }
+            break
+          case Constants.MATCH_START: 
+            targetSession.isStarted = true
+            break
         }
+
+        sessions[obj.sessionName] = targetSession
+
+        var response = JSON.stringify({
+          type: Constants.MATCH_UPDATE,
+          session: {...targetSession, sockets: []}
+        })
+
+        // broadcast message to clients of session
+        var json = JSON.stringify({ type:'message', data: response });
+        targetSession.sockets.forEach((client) => {
+            console.log((new Date()) + ' ' + message.utf8Data);
+            client.sendUTF(json);
+        })
     }
   });
 
   // user disconnected
   connection.on('close', function(connection) {
       console.log((new Date()) + " Peer "
-      + connection.socket.remotePort + " disconnected.");
+      + connection + " disconnected.");
       // remove user from the list of connected clients
       clients.splice(index, 1);
+      // remove user from sessions and send update
+      
   });
 
 });
