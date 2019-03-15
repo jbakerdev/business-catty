@@ -1,6 +1,5 @@
 import React from 'react';
 import { onMatchStart } from '../uiManager/Thunks.js'
-import Constants from '../../../Constants'
 
 export default class Lobby extends React.Component {
 

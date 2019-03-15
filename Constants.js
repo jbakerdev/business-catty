@@ -4,6 +4,7 @@ module.exports = {
   ReducerActions: {
     MATCH_AVAILABLE: 'ma',
     MATCH_UPDATE: 'mu',
+    MATCH_TICK: 'mt',
     PLAYER_READY: 'pr',
     PLAYER_ENTERED: 'pe',
     PLAYER_JOIN: 'pj',

@@ -21,3 +21,10 @@ export const onChoosePhrase = (phrase, sessionName, server) => {
         sessionName
     })
 }
+
+export const onMatchTick = (session, server) => {
+    server.publishMessage({
+        type: Constants.ReducerActions.MATCH_TICK,
+        sessionName: session.sessionName
+    })
+}

@@ -65,6 +65,7 @@ wsServer.on('request', function(request) {
             targetSession.players = targetSession.players.map((player) => {
               return {...player, choices: getChoices(targetSession.activePhrase)}
             })
+            targetSession.ticks = 0
             break
           case Constants.PHRASE_ENTERED: 
             if(targetSession.activePhrase === obj.phrase){
@@ -74,6 +75,9 @@ wsServer.on('request', function(request) {
                 return {...player, choices: getChoices(targetSession.activePhrase)}
               })
             }
+            break
+          case Constants.MATCH_TICK: 
+            targetSession.ticks++
             break
         }
         sessions[obj.sessionName] = targetSession
@@ -88,11 +92,7 @@ wsServer.on('request', function(request) {
       var sessionNames = Object.keys(sessions)
       sessionNames.forEach((name) => {
         let session = sessions[name]
-        let player = session.players.find((player) => 
-          {
-            console.log('comparing '+player.socket.id + ' to '+socketId)
-            return player.socket.id === socketId
-          })
+        let player = session.players.find((player) => player.socket.id === socketId)
         if(player){
           console.log('removing player '+player.name+' from session '+name)
           session.players = session.players.filter((rplayer) => rplayer.id !== player.id)
@@ -106,25 +106,24 @@ wsServer.on('request', function(request) {
       
       // remove user from sessions and send update
   });
-
-  var publishSessionUpdate = (targetSession) => {
-    var message = getSessionUpdateMessage(targetSession)
-    // broadcast message to clients of session
-    var json = JSON.stringify({ type:'message', data: message });
-    targetSession.players.forEach((player) => {
-        console.log((new Date()) + ' ' + message);
-        player.socket.sendUTF(json);
-    })
-  }
-
-  var getSessionUpdateMessage = (targetSession) => {
-    return JSON.stringify({
-      type: Constants.MATCH_UPDATE,
-      session: {...targetSession, players: targetSession.players.map((player) => {return {...player, socket: ''}})}
-    })
-  }
-
 });
+
+const publishSessionUpdate = (targetSession) => {
+  var message = getSessionUpdateMessage(targetSession)
+  // broadcast message to clients of session
+  var json = JSON.stringify({ type:'message', data: message });
+  targetSession.players.forEach((player) => {
+      console.log((new Date()) + ' ' + message);
+      player.socket.sendUTF(json);
+  })
+}
+
+const getSessionUpdateMessage = (targetSession) => {
+  return JSON.stringify({
+    type: Constants.MATCH_UPDATE,
+    session: {...targetSession, players: targetSession.players.map((player) => {return {...player, socket: ''}})}
+  })
+}
 
 const getNextPhrase = () => {
   return Phrases[getRandomInt(Phrases.length-1)]

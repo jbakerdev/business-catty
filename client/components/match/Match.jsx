@@ -1,9 +1,12 @@
 import React from 'react';
-import { onChoosePhrase } from '../uiManager/Thunks.js'
+import { onChoosePhrase, onMatchTick } from '../uiManager/Thunks.js'
 
 export default class Match extends React.Component {
 
-    state = {correct: null}
+    state = {
+        correct: null, 
+        interval: this.props.currentUser.id === this.props.activeSession.bossId && setInterval(()=>onMatchTick(this.props.activeSession, this.props.server), 1000)
+    }
 
     choosePhrase = (choice) => {
         const correct = choice === this.props.activeSession.activePhrase
@@ -37,6 +40,7 @@ export default class Match extends React.Component {
                 }
                 {this.state.correct === null ? '' : <div>{this.state.correct ? 'Correct!' : 'WRONG'}</div>}
                 <div>Le score {this.props.activeSession.score}</div>
+                <div>Le timer {this.props.activeSession.ticks}</div>
             </div>
         )
     }
