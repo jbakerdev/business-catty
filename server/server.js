@@ -47,13 +47,11 @@ wsServer.on('request', function(request) {
         switch(obj.type){
           case Constants.MATCH_AVAILABLE:
             if(targetSession){
-              targetSession.sockets.push(connection)
-              targetSession.players.push(obj.currentUser)
+              targetSession.players.push({...obj.currentUser, socket: connection})
             }
             else
               targetSession = {
-                sockets: [connection], 
-                players: [obj.currentUser], 
+                players: [{...obj.currentUser, socket: connection}], 
                 sessionName: obj.sessionName
               }
             break
@@ -61,31 +59,46 @@ wsServer.on('request', function(request) {
             targetSession.isStarted = true
             break
         }
-
         sessions[obj.sessionName] = targetSession
-
-        var response = JSON.stringify({
-          type: Constants.MATCH_UPDATE,
-          session: {...targetSession, sockets: []}
-        })
-
-        // broadcast message to clients of session
-        var json = JSON.stringify({ type:'message', data: response });
-        targetSession.sockets.forEach((client) => {
-            console.log((new Date()) + ' ' + message.utf8Data);
-            client.sendUTF(json);
-        })
+        publishSessionUpdate(targetSession)
     }
   });
 
   // user disconnected
-  connection.on('close', function(connection) {
-      console.log((new Date()) + " Peer "
-      + connection + " disconnected.");
+  connection.on('close', (code) => {
+      console.log((new Date()) + "A Peer disconnected.");
       // remove user from the list of connected clients
+      var socket = clients[index]
+      var sessionNames = Object.keys(sessions)
+      sessionNames.forEach((name) => {
+        let session = sessions[name]
+        let player = session.players.find((player) => player.socket === socket)
+        if(player){
+          console.log('removing player '+player.name+' from session '+name)
+          session.players = session.players.filter((rplayer) => rplayer.id !== player.id)
+          publishSessionUpdate(session)
+        } 
+      })
+      
       clients.splice(index, 1);
       // remove user from sessions and send update
-      
   });
+
+  var publishSessionUpdate = (targetSession) => {
+    var message = getSessionUpdateMessage(targetSession)
+    // broadcast message to clients of session
+    var json = JSON.stringify({ type:'message', data: message });
+    targetSession.players.forEach((player) => {
+        console.log((new Date()) + ' ' + message);
+        player.socket.sendUTF(json);
+    })
+  }
+
+  var getSessionUpdateMessage = (targetSession) => {
+    return JSON.stringify({
+      type: Constants.MATCH_UPDATE,
+      session: {...targetSession, players: targetSession.players.map((player) => {return {...player, socket: ''}})}
+    })
+  }
 
 });
