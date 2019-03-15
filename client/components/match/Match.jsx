@@ -4,7 +4,10 @@ export default class Match extends React.Component {
     render(){
         return (
             <div style={styles.frame}>
-                <div>Le Match</div>
+                <div>Le Match avec</div>
+                {this.props.activeSession.players.map((player) => 
+                    <div>{player.name}</div>
+                )}
             </div>
         )
     }

@@ -16,10 +16,10 @@ export default class UIManager extends React.Component {
         }
         else {
             if(this.props.activeSession && !this.props.activeSession.isStarted){
-                return <Lobby activeSession={this.props.activeSession} currentUser={this.props.currentUser}/>
+                return <Lobby {...this.props}/>
             }
             if(this.props.activeSession && this.props.activeSession.isStarted){
-                return <Match activeSession={this.props.activeSession} currentUser={this.props.currentUser}/>
+                return <Match {...this.props}/>
             }
         }
     }

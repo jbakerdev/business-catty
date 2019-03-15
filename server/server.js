@@ -16,7 +16,6 @@ server.listen(1337, function() {
  * WebSocket server
  */
 
-var clients = [];
 var sessions = [];
 
 var wsServer = new WebSocketServer({
@@ -34,8 +33,8 @@ wsServer.on('request', function(request) {
   // client is connecting from your website
   // (http://en.wikipedia.org/wiki/Same_origin_policy)
   var connection = request.accept(null, request.origin);
-  // we need to know client index to remove them on 'close' event
-  var index = clients.push(connection) - 1;
+  var socketId = Date.now()+''+Math.random()
+  connection.id = socketId
 
   console.log((new Date()) + ' Connection accepted.');
 
@@ -49,11 +48,13 @@ wsServer.on('request', function(request) {
             if(targetSession){
               targetSession.players.push({...obj.currentUser, socket: connection})
             }
-            else
+            else{
               targetSession = {
                 players: [{...obj.currentUser, socket: connection}], 
                 sessionName: obj.sessionName
               }
+              console.log('created session '+obj.sessionName)
+            }
             break
           case Constants.MATCH_START: 
             targetSession.isStarted = true
@@ -68,19 +69,25 @@ wsServer.on('request', function(request) {
   connection.on('close', (code) => {
       console.log((new Date()) + "A Peer disconnected.");
       // remove user from the list of connected clients
-      var socket = clients[index]
       var sessionNames = Object.keys(sessions)
       sessionNames.forEach((name) => {
         let session = sessions[name]
-        let player = session.players.find((player) => player.socket === socket)
+        let player = session.players.find((player) => 
+          {
+            console.log('comparing '+player.socket.id + ' to '+socketId)
+            return player.socket.id === socketId
+          })
         if(player){
           console.log('removing player '+player.name+' from session '+name)
           session.players = session.players.filter((rplayer) => rplayer.id !== player.id)
           publishSessionUpdate(session)
+          if(session.players.length === 0) {
+            delete sessions[name]
+            console.log('removed session '+name)
+          }
         } 
       })
       
-      clients.splice(index, 1);
       // remove user from sessions and send update
   });
 

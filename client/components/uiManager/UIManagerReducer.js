@@ -2,7 +2,6 @@ import Constants from '../../../Constants'
 import WS from '../../WebsocketClient'
 
 const appReducer = (state = getInitialState(), action) => {
-    var session
     switch (action.type) {
         case Constants.ReducerActions.INIT_SERVER:
             return { ...state, server: new WS(action.props) }
