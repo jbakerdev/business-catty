@@ -2,6 +2,7 @@ var WebSocketServer = require('websocket').server;
 var http = require('http');
 var Constants = require('../Constants.js').ReducerActions
 var Phrases = require('../Constants.js').Phrases
+var MatchStatus = require('../Constants.js').MatchStatus
 /**
  * HTTP server
  */
@@ -53,19 +54,24 @@ wsServer.on('request', function(request) {
                 players: [{...obj.currentUser, socket: connection}], 
                 sessionName: obj.sessionName,
                 score:0,
-                activePhrase: ''
+                activePhrase: '',
+                level:0,
+                status: ''
               }
               console.log('created session '+obj.sessionName)
             }
             break
           case Constants.MATCH_START: 
-            targetSession.isStarted = true
+            targetSession.level++
+            targetSession.status = MatchStatus.ACTIVE
             targetSession.bossId = obj.currentUser.id
             targetSession.activePhrase = getNextPhrase()
             targetSession.players = targetSession.players.map((player) => {
               return {...player, choices: getChoices(targetSession.activePhrase)}
             })
             targetSession.ticks = 0
+            targetSession.goal = targetSession.level*5
+            targetSession.tickLimit = 15 - (targetSession.level*5)
             break
           case Constants.PHRASE_ENTERED: 
             if(targetSession.activePhrase === obj.phrase){
@@ -79,9 +85,19 @@ wsServer.on('request', function(request) {
           case Constants.MATCH_TICK: 
             targetSession.ticks++
             break
+          case Constants.MATCH_LOST:
+            targetSession.status = MatchStatus.LOST
+            break
+          case Constants.MATCH_WIN:
+            targetSession.status = MatchStatus.WIN
+            break
         }
+
         sessions[obj.sessionName] = targetSession
         publishSessionUpdate(targetSession)
+        if(targetSession.status === MatchStatus.LOST){
+          delete sessions[obj.sessionName]
+        }
     }
   });
 

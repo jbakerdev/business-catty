@@ -19,6 +19,8 @@ const appReducer = (state = getInitialState(), action) => {
             return { ...state, activeSession: {...state.activeSession}}
         case Constants.ReducerActions.SET_USER: 
             return { ...state, currentUser: action.currentUser }
+        case Constants.ReducerActions.MATCH_CLEANUP: 
+            return { ...state, activeSession: null}
         default:
             return state
     }

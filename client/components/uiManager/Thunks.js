@@ -28,3 +28,23 @@ export const onMatchTick = (session, server) => {
         sessionName: session.sessionName
     })
 }
+
+export const onMatchWon = (session, server) => {
+    server.publishMessage({
+        type: Constants.ReducerActions.MATCH_WIN,
+        sessionName: session.sessionName
+    })
+}
+
+export const onMatchLost = (session, server) => {
+    server.publishMessage({
+        type: Constants.ReducerActions.MATCH_LOST,
+        sessionName: session.sessionName
+    })
+}
+
+export const onCleanSession = () => {
+    dispatch({
+        type: Constants.ReducerActions.MATCH_CLEANUP
+    })
+}
