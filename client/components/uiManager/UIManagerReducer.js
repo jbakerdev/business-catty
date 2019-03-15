@@ -20,7 +20,7 @@ const appReducer = (state = getInitialState(), action) => {
         case Constants.ReducerActions.SET_USER: 
             return { ...state, currentUser: action.currentUser }
         case Constants.ReducerActions.MATCH_CLEANUP: 
-            return { ...state, activeSession: null}
+            return { ...state, activeSession: null, currentUser:null}
         default:
             return state
     }

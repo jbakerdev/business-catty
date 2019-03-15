@@ -1,5 +1,4 @@
 import React from 'react';
-import './UIManager.css';
 import Lobby from '../lobby/Lobby.jsx'
 import Match from '../match/Match.jsx'
 import Login from '../login/Login.jsx'
@@ -28,7 +27,10 @@ export default class UIManager extends React.Component {
         return (
             <div style={styles.frame}>
                 {this.getComponent()}
-                <div style={{...styles.dot, backgroundColor: this.props.isConnected ? 'green': 'red'}}/>
+                <div style={styles.statusDot}>
+                    <h6 style={{margin:0, marginRight:'0.5em'}}>Servers are</h6>
+                    <div style={{...styles.dot, backgroundColor: this.props.isConnected ? 'green': 'red'}}/>    
+                </div>
             </div>
         )
     }
@@ -36,14 +38,18 @@ export default class UIManager extends React.Component {
 
 const styles = {
     frame: {
-        background: 'black',
-        color: 'green',
-        height: '100%',
-        padding:'1em'
+        height: '100vh',
+        display:'flex', justifyContent:'center'
     },
     dot: {
-        height:'1em',
-        width:'1em',
+        height:'0.5em',
+        width:'0.5em',
         borderRadius: '0.5em'
+    },
+    statusDot: {
+        position:'absolute', bottom:'0.5em', right:'0.5em',
+        display:'flex',
+        color:'black',
+        alignItems:'center'
     }
 }

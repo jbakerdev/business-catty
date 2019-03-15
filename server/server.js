@@ -44,6 +44,7 @@ wsServer.on('request', function(request) {
     if (message.type === 'utf8') { // accept only text
         var obj = JSON.parse(message.utf8Data)
         var targetSession = sessions[obj.sessionName]
+        if(!targetSession && obj.type !== Constants.MATCH_AVAILABLE) return
         switch(obj.type){
           case Constants.MATCH_AVAILABLE:
             if(targetSession){
@@ -71,7 +72,8 @@ wsServer.on('request', function(request) {
             })
             targetSession.ticks = 0
             targetSession.goal = targetSession.level*5
-            targetSession.tickLimit = 15 - (targetSession.level*5)
+            targetSession.tickLimit = 60 - (targetSession.level*5)
+            targetSession.score = 0
             break
           case Constants.PHRASE_ENTERED: 
             if(targetSession.activePhrase === obj.phrase){
