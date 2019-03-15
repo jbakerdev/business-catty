@@ -1,7 +1,15 @@
 import React from 'react';
 import { onMatchStart } from '../uiManager/Thunks.js'
+import Constants from '../../../Constants'
 
 export default class Lobby extends React.Component {
+
+    startMatch = () => {
+        onMatchStart(
+            this.props.activeSession.sessionName, 
+            this.props.currentUser, 
+            this.props.server)
+    }
 
     getErrors = () => {
         if(this.props.activeSession.players.length < 2) return 'Waiting for more players to join...'
@@ -18,7 +26,7 @@ export default class Lobby extends React.Component {
                         </div>
                     )}
                     <div>{this.getErrors()}</div>
-                    {this.getErrors() ? '' : <div onClick={()=>onMatchStart(this.props.activeSession.sessionName, this.props.server)}>Start Buisnessing</div>}
+                    {this.getErrors() ? '' : <div onClick={this.startMatch}>Start Buisnessing</div>}
                 </div>
             </div>
         )

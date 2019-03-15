@@ -1,7 +1,7 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 var Constants = require('../Constants.js').ReducerActions
-
+var Phrases = require('../Constants.js').Phrases
 /**
  * HTTP server
  */
@@ -51,13 +51,29 @@ wsServer.on('request', function(request) {
             else{
               targetSession = {
                 players: [{...obj.currentUser, socket: connection}], 
-                sessionName: obj.sessionName
+                sessionName: obj.sessionName,
+                score:0,
+                activePhrase: ''
               }
               console.log('created session '+obj.sessionName)
             }
             break
           case Constants.MATCH_START: 
             targetSession.isStarted = true
+            targetSession.bossId = obj.currentUser.id
+            targetSession.activePhrase = getNextPhrase()
+            targetSession.players = targetSession.players.map((player) => {
+              return {...player, choices: getChoices(targetSession.activePhrase)}
+            })
+            break
+          case Constants.PHRASE_ENTERED: 
+            if(targetSession.activePhrase === obj.phrase){
+              targetSession.score++
+              targetSession.activePhrase = getNextPhrase()
+              targetSession.players = targetSession.players.map((player) => {
+                return {...player, choices: getChoices(targetSession.activePhrase)}
+              })
+            }
             break
         }
         sessions[obj.sessionName] = targetSession
@@ -109,3 +125,18 @@ wsServer.on('request', function(request) {
   }
 
 });
+
+const getNextPhrase = () => {
+  return Phrases[getRandomInt(Phrases.length-1)]
+}
+
+const getChoices = (keyPhrase) => {
+  let choices = new Array(5).fill().map((i) => getNextPhrase())
+  choices = choices.filter((choice) => choice !== keyPhrase)
+  choices.push(keyPhrase)
+  return choices
+}
+
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * Math.floor(max));
+}
