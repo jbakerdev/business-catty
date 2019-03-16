@@ -28,7 +28,7 @@ var wsServer = new WebSocketServer({
 // This callback function is called every time someone
 // tries to connect to the WebSocket server
 wsServer.on('request', function(request) {
-  console.log((new Date()) + ' Connection from origin ' + request.host + '.');
+  console.log((new Date()) + ' Connection from origin ' + request.origin + '.');
   
   // accept connection - you should check 'request.origin' to make sure that
   // client is connecting from your website
