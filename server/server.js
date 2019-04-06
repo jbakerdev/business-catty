@@ -148,12 +148,22 @@ const getNextPhrase = () => {
 }
 
 const getChoices = (keyPhrase) => {
-  let choices = new Array(5).fill().map((i) => getNextPhrase())
+  let choices = new Array(7).fill().map((i) => getNextPhrase())
   choices = choices.filter((choice) => choice !== keyPhrase)
   choices.push(keyPhrase)
+  choices = shuffleArray(choices)
+  console.log(choices)
   return choices
 }
 
 const getRandomInt = (max) => {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+  return Array.from(array)
 }

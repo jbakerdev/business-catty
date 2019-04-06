@@ -1,6 +1,6 @@
 module.exports = {
-  ApiUrl: 'ws://ec2-35-172-141-166.compute-1.amazonaws.com:1337',
-
+  //ApiUrl: 'ws://ec2-35-172-141-166.compute-1.amazonaws.com:2345',
+  ApiUrl: 'ws://localhost:1337',
   ReducerActions: {
     MATCH_AVAILABLE: 'ma',
     MATCH_UPDATE: 'mu',

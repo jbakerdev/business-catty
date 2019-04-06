@@ -21,7 +21,7 @@ export default class Lobby extends React.Component {
                 <div style={{padding:'1em', display:'flex', alignItems:'center', overflowX:'auto'}}>
                     {this.props.activeSession.players.map((player) => 
                         <div style={styles.nameTag}>
-                            <input style={styles.loginInput} type="text" value={player.name}/>
+                            <input style={{...styles.loginInput, width:'100%'}} type="text" value={player.name}/>
                         </div>
                     )}
                 </div>
