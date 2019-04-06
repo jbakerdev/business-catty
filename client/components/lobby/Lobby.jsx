@@ -1,5 +1,7 @@
 import React from 'react';
 import { onMatchStart } from '../uiManager/Thunks.js'
+import { Button, TopBar } from '../Shared'
+import AppStyles from '../../AppStyles';
 
 export default class Lobby extends React.Component {
 
@@ -16,17 +18,22 @@ export default class Lobby extends React.Component {
 
     render(){
         return (
-            <div style={{width:'100%'}}>
-                <div style={{padding:'1em'}}>Meanwhile in Conference Room 3F at {this.props.activeSession.sessionName}'s HQ, the team assembles...</div>
-                <div style={{padding:'1em', display:'flex', alignItems:'center', overflowX:'auto'}}>
+            <div style={{...AppStyles.window, padding:'0.5em'}}>
+                {TopBar('MacBusiness')}
+                <h3>{this.props.activeSession.sessionId} Lobby</h3>
+                <div style={{marginBottom:'1em', alignItems:'center', overflow:'auto', maxHeight:'66vh'}}>
                     {this.props.activeSession.players.map((player) => 
                         <div style={styles.nameTag}>
-                            <input style={{...styles.loginInput, width:'100%'}} type="text" value={player.name}/>
+                            {player.name}
                         </div>
                     )}
                 </div>
                 <div>{this.getErrors()}</div>
-                {this.getErrors() ? '' : <div style={{cursor:'pointer', margin:'1em', textAlign:'right'}} onClick={this.startMatch}>Start Brainstorming -></div>}
+                {this.getErrors() ? '' : 
+                    <div style={AppStyles.buttonOuter} 
+                         onClick={this.startMatch}>
+                         <div style={{border:'1px solid', borderRadius: '3px', opacity: this.getErrors() ? 0.5 : 1}}>Start</div>
+                    </div>}
             </div>
         )
     }

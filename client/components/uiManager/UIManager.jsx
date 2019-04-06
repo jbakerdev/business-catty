@@ -39,7 +39,9 @@ export default class UIManager extends React.Component {
 const styles = {
     frame: {
         height: '100vh',
-        display:'flex', justifyContent:'center'
+        display:'flex', justifyContent:'center', alignItems:'center',
+        backgroundImage: 'url(./build'+require('../../assets/tiny.png')+')',
+        backgroundRepeat: 'repeat'
     },
     dot: {
         height:'0.5em',

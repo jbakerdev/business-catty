@@ -8,39 +8,43 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/',
     },
-    devtool: false,
+    devtool: 'eval-source-map',
     module: {
         rules: [{
-                test: /\.css$/,
-                use: [{
-                        loader: "style-loader"
-                    },
-                    {
-                        loader: "css-loader"
-                    }
-                ]
-            },
-            {
-                test: /\.tsx?$/,
-                loader: "ts-loader",
-            },
-            {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                use: [{
-                    loader: 'url-loader?limit=100000',
-                }]
-            },
-            {
-                test: /sw.(j|t)s$/,
-                use: [{
-                    loader: 'file-loader',
-                }]
-            },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: ['babel-loader']
-            }
-        ],
+            test: /\.css$/,
+            use: [{
+                    loader: "style-loader"
+                },
+                {
+                    loader: "css-loader"
+                }
+            ]
+        },
+        {
+            test: /\.ts|\.tsx$/,
+            loader: "ts-loader",
+        },
+        {
+            test: /sw.(j|t)s$/,
+            use: [{
+                loader: 'file-loader',
+            }]
+        },
+        {
+            test: /\.(png|svg|jpg|gif)$/,
+            use: [{
+                loader: 'file-loader',
+                options: {
+                  outputPath: './',
+                },
+              }]
+        },
+        { test: /\.(woff|woff2|eot|ttf|svg)$/, use: ['url-loader?limit=100000'] },
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader']
+        }
+    ],
     },
 };

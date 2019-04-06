@@ -1,12 +1,14 @@
 import { dispatch } from '../../../index'
 import Constants from '../../../Constants';
+import WS from '../../WebsocketClient'
+export const server = new WS()
 
-export const onLogin = (currentUser, sessionName, server) => {
+export const onLogin = (currentUser, sessionName) => {
     dispatch({ type: Constants.ReducerActions.SET_USER, currentUser })
     server.publishMessage({type: Constants.ReducerActions.MATCH_AVAILABLE, currentUser, sessionName})
 }
 
-export const onMatchStart = (sessionName, currentUser, server) => {
+export const onMatchStart = (sessionName, currentUser) => {
     server.publishMessage({
         type: Constants.ReducerActions.MATCH_START, 
         sessionName, 
@@ -14,7 +16,7 @@ export const onMatchStart = (sessionName, currentUser, server) => {
     })
 }
 
-export const onChoosePhrase = (phrase, sessionName, server) => {
+export const onChoosePhrase = (phrase, sessionName) => {
     server.publishMessage({
         type: Constants.ReducerActions.PHRASE_ENTERED,
         phrase,
@@ -22,21 +24,21 @@ export const onChoosePhrase = (phrase, sessionName, server) => {
     })
 }
 
-export const onMatchTick = (session, server) => {
+export const onMatchTick = (session) => {
     server.publishMessage({
         type: Constants.ReducerActions.MATCH_TICK,
         sessionName: session.sessionName
     })
 }
 
-export const onMatchWon = (session, server) => {
+export const onMatchWon = (session) => {
     server.publishMessage({
         type: Constants.ReducerActions.MATCH_WIN,
         sessionName: session.sessionName
     })
 }
 
-export const onMatchLost = (session, server) => {
+export const onMatchLost = (session) => {
     server.publishMessage({
         type: Constants.ReducerActions.MATCH_LOST,
         sessionName: session.sessionName
