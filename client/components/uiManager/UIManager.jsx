@@ -1,7 +1,7 @@
 import React from 'react';
-import Lobby from '../lobby/Lobby.jsx'
-import Match from '../match/Match.jsx'
-import Login from '../login/Login.jsx'
+import Lobby from '../Lobby.jsx'
+import Match from '../Match.jsx'
+import Login from '../Login.jsx'
 
 export default class UIManager extends React.Component {
 

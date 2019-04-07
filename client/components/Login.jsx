@@ -1,7 +1,7 @@
 import React from 'react';
-import { onLogin } from '../uiManager/Thunks.js'
-import { Button, TopBar } from '../Shared'
-import AppStyles from '../../AppStyles';
+import { onLogin } from './uiManager/Thunks.js'
+import { Button, TopBar } from './Shared'
+import AppStyles from '../AppStyles';
 
 export default class Login extends React.Component {
     state = { name: '', sessionName: ''}

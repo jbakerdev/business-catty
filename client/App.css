@@ -9,10 +9,19 @@
 }
 
 html {
-    font-family: 'Comicoro';
+    font-family: 'Chron';
     font-size: calc(16px + 1vw);
     background: '#e5e5e5';
     height:100%;
+}
+
+::selection {
+  background: 'black';
+  color:'white';
+}
+
+.input:focus {
+  outline: none !important;
 }
 
 @keyframes shake {

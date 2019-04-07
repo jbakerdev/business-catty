@@ -31,7 +31,7 @@ module.exports = {
   Phrases: [
     'Synergize the paradigm',
     'Drive value',
-    'Operationalize the strategy',
+    'Operationalize our strategy',
     'Leverage our core compentencies',
     'Wholeistically administrate exceptional synergy',
     'Set the brand trajectory',
@@ -49,7 +49,7 @@ module.exports = {
     'Increase our share of wallet',
     'Activate thought leadership',
     'Form some tiger teams',
-    'Fix the verbage in out takeaway',
+    'Fix the verbage for a better takeaway',
     'Implement robust solutioning',
     'Hit the ground running with content marketing',
     'Hold the fort for a come to jesus moment',
@@ -58,6 +58,13 @@ module.exports = {
     'Throw thought leadership over the wall',
     'Try proactive price point onboarding',
     'Manage the low hanging fruit',
-    'Leverage our learnings to punch a puppy'
+    'Leverage our learnings to punch a puppy',
+    'Invest in world class technology',
+    'Organize our core competencies',
+    'Promote viability using diversity',
+    'Create client-centric solutions',
+    'Use our capitalized reputation',
+    'Perform cross-platform innovation',
+    'Forcus being best of breed in our industry'
   ]
 };

@@ -49,10 +49,9 @@ export default {
         borderTopLeftRadius: '5px',
         borderTopRightRadius: '5px',
         borderBottom: '1px solid',
-        fontFamily:'Chron',
         height:'1em'
     },
-    notification: {padding:'1em', border:'1px solid', borderRadius:'5px', background:'#f3f3f3'},
+    notification: {textAlign:'center', padding:'0.5em', border:'1px solid', borderRadius:'5px', background:'#f3f3f3', fontFamily:'Comicoro'},
     hr: {
         margin:0,
         marginBottom:'1px'
