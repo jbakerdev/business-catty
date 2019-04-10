@@ -1,7 +1,7 @@
 import React from 'react';
-import Lobby from '../lobby/Lobby.jsx'
-import Match from '../match/Match.jsx'
-import Login from '../login/Login.jsx'
+import Lobby from '../Lobby.jsx'
+import Match from '../Match.jsx'
+import Login from '../Login.jsx'
 
 export default class UIManager extends React.Component {
 
@@ -39,7 +39,9 @@ export default class UIManager extends React.Component {
 const styles = {
     frame: {
         height: '100vh',
-        display:'flex', justifyContent:'center'
+        display:'flex', justifyContent:'center', alignItems:'center',
+        backgroundImage: 'url('+require('../../assets/tiny.png')+')',
+        backgroundRepeat: 'repeat'
     },
     dot: {
         height:'0.5em',

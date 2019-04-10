@@ -1,16 +1,16 @@
-import Constants from '../Constants'
+import { ApiUrl } from '../Constants'
 
 export default class WebsocketClient {
 
-    constructor(args){
-        this.onConnected = args.onConnected
-        this.onConnectionError = args.onConnectionError
-        this.onWSMessage = args.onWSMessage
-        this.launch(Constants.ApiUrl)
+    setProps = (args) => {
+      this.onConnected = args.onConnected
+      this.onConnectionError = args.onConnectionError
+      this.onWSMessage = args.onWSMessage
+      this.launch(ApiUrl)
     }
 
     launch = (url) => {
-        this.websocket = new ReconnectingWebSocket(url);
+        this.websocket = new ReconnectingWebSocket(url)
         console.log('ws: connecting');
         this.websocket.onopen = this.onConnected
         this.websocket.onerror = this.onConnectionError
@@ -34,197 +34,103 @@ export default class WebsocketClient {
     }
 };
 
-const ReconnectingWebSocket = function (url, protocols) {
+class ReconnectingWebSocket {
 
-  protocols = protocols || [];
-
-
+  constructor(url){
+    this.url = url
+    this.connect(this.url)
+  }
 
   // These can be altered by calling code.
+  debug = false;
+  reconnectInterval = 2000;
+  timeoutInterval = 5000;
 
-  this.debug = false;
+  ws;
+  forcedClose = false;
+  timedOut = false;
+  protocols = [];
+  readyState = WebSocket.CONNECTING;
 
-  this.reconnectInterval = 2000;
-
-  this.timeoutInterval = 5000;
-
-
-
-  var self = this;
-
-  var ws;
-
-  var forcedClose = false;
-
-  var timedOut = false;
-
-
-
-  this.url = url;
-
-  this.protocols = protocols;
-
-  this.readyState = WebSocket.CONNECTING;
-
-  this.URL = url; // Public API
-
-
-
-  this.onopen = function (event) {
-
+  onopen = function (event) {
   };
 
-
-
-  this.onclose = function (event) {
-
+  onclose = function (event) {
   };
 
-
-
-  this.onconnecting = function (event) {
-
+  onconnecting = function (event) {
   };
 
-
-
-  this.onmessage = function (event) {
-
+  onmessage = function (event) {
   };
 
-
-
-  this.onerror = function (event) {
-
+  onerror = function (event) {
   };
 
-
-
-  function connect(reconnectAttempt) {
-
-    ws = new WebSocket(url, protocols);
-
-
-
-    self.onconnecting();
-
-
-
-    var localWs = ws;
+  connect = (reconnectAttempt) => {
+    this.ws = new WebSocket(this.url, []);
+    this.onconnecting();
+    var localWs = this.ws;
 
     var timeout = setTimeout(function () {
-
-      timedOut = true;
-
+      this.timedOut = true;
       localWs.close();
+      this.timedOut = false;
+    }, this.timeoutInterval);
 
-      timedOut = false;
-
-    }, self.timeoutInterval);
-
-
-
-    ws.onopen = function (event) {
-
+    this.ws.onopen = (event) => {
       clearTimeout(timeout);
-
-      self.readyState = WebSocket.OPEN;
-
+      this.readyState = WebSocket.OPEN;
       reconnectAttempt = false;
-
-      self.onopen(event);
-
+      this.onopen(event);
     };
 
-
-
-    ws.onclose = function (event) {
-
+    this.ws.onclose = (event) => {
       clearTimeout(timeout);
-
       ws = null;
-
       if (forcedClose) {
-
-        self.readyState = WebSocket.CLOSED;
-
-        self.onclose(event);
-
+        this.readyState = WebSocket.CLOSED;
+        this.onclose(event);
       } else {
 
-        self.readyState = WebSocket.CONNECTING;
+        this.readyState = WebSocket.CONNECTING;
 
-        self.onconnecting();
+        this.onconnecting();
 
         if (!reconnectAttempt && !timedOut) {
-
-          self.onclose(event);
-
+          this.onclose(event);
         }
 
         setTimeout(function () {
-
-          connect(true);
-
-        }, self.reconnectInterval);
-
+          this.connect(true);
+        }, this.reconnectInterval);
       }
-
     };
 
-
-
-    ws.onmessage = function (event) {
-
-      self.onmessage(event);
-
+    this.ws.onmessage = (event) => {
+      this.onmessage(event);
     };
 
-
-
-    ws.onerror = function (event) {
-
-      self.onerror(event);
-
+    this.ws.onerror = (event) => {
+      this.onerror(event);
     };
 
   }
 
-
-
-  connect(url);
-
-
-
-  this.send = function (data) {
-
-    if (ws) {
-
-      return ws.send(data);
-
+  send = (data) => {
+    if (this.ws) {
+      return this.ws.send(data);
     } else {
-
       throw 'INVALID_STATE_ERR : Pausing to reconnect websocket';
-
     }
-
   };
 
-
-
-  this.close = function () {
-
-    forcedClose = true;
-
-    if (ws) {
-
-      ws.close();
-
+  close = () => {
+    this.forcedClose = true;
+    if (this.ws) {
+      this.ws.close();
     }
-
   };
-
-
 
   /**
 
@@ -234,15 +140,9 @@ const ReconnectingWebSocket = function (url, protocols) {
 
    */
 
-  this.refresh = function () {
-
-    if (ws) {
-
-      ws.close();
-
+  refresh = () => {
+    if (this.ws) {
+      this.ws.close();
     }
-
   };
-
 }
-

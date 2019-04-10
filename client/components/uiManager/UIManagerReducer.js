@@ -1,10 +1,11 @@
 import Constants from '../../../Constants'
-import WS from '../../WebsocketClient'
+import {server} from './Thunks'
 
 const appReducer = (state = getInitialState(), action) => {
     switch (action.type) {
         case Constants.ReducerActions.INIT_SERVER:
-            return { ...state, server: new WS(action.props) }
+            server.setProps(action.props)
+            return { ...state }
         case Constants.ReducerActions.CONNECTED: 
             return { ...state, isConnected: true}
         case Constants.ReducerActions.CONNECTION_ERROR: 

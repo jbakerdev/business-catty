@@ -1,17 +1,27 @@
-@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Permanent+Marker');
+@font-face {
+  font-family: 'Chron';
+  src: url('./assets/ChronoType.woff')  format('woff')
+}
 
-/* font-family: 'Permanent Marker', cursive;
-font-family: 'Architects Daughter', cursive; */
+@font-face {
+  font-family: 'Comicoro';
+  src: url('./assets/Comicoro.ttf')  format('truetype')
+}
 
 html {
-    font-family: 'Architects Daughter', cursive;
+    font-family: 'Chron';
     font-size: calc(16px + 1vw);
     background: '#e5e5e5';
     height:100%;
 }
 
-.alternate-font{
-    font-family: 'Permanent Marker', cursive
+::selection {
+  background: 'black';
+  color:'white';
+}
+
+.input:focus {
+  outline: none !important;
 }
 
 @keyframes shake {
