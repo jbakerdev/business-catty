@@ -113,18 +113,18 @@ export default class Match extends React.Component {
 const styles = {
     frame: {
         width:'500px',
-        backgroundImage: 'url(./build'+require('../assets/tiny2.png')+')',
+        backgroundImage: 'url('+require('../assets/tiny2.png')+')',
         backgroundRepeat: 'repeat',
         border:'1px solid',
         borderTopLeftRadius:'5px',
         borderTopRightRadius: '5px'
     },
     barFill1: {
-        backgroundImage: 'url(./build'+require('../assets/tiny2.png')+')',
+        backgroundImage: 'url('+require('../assets/tiny2.png')+')',
         backgroundRepeat: 'repeat',
     },
     barFill2: {
-        backgroundImage: 'url(./build'+require('../assets/whiteTile.png')+')',
+        backgroundImage: 'url('+require('../assets/whiteTile.png')+')',
         backgroundRepeat: 'repeat',
     },
     choiceBtn: {

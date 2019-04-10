@@ -40,7 +40,7 @@ const styles = {
     frame: {
         height: '100vh',
         display:'flex', justifyContent:'center', alignItems:'center',
-        backgroundImage: 'url(./build'+require('../../assets/tiny.png')+')',
+        backgroundImage: 'url('+require('../../assets/tiny.png')+')',
         backgroundRepeat: 'repeat'
     },
     dot: {
