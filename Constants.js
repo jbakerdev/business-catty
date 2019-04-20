@@ -65,6 +65,14 @@ module.exports = {
     'Create client-centric solutions',
     'Use our capitalized reputation',
     'Perform cross-platform innovation',
-    'Forcus being best of breed in our industry'
+    'Forcus being best of breed in our industry',
+    'Advanced dashboard functionality',
+    'Lifecycle transparency',
+    'Self-service gamification',
+    'File automation',
+    'Enhanced D2C marketing',
+    'Claimant holistic value',
+    'Incentivized attorney journey',
+    ''
   ]
 };
