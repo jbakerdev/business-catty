@@ -3,6 +3,10 @@ import { onChoosePhrase, onMatchTick, onMatchLost, onMatchWon, onMatchStart, onC
 import Constants from '../../Constants'
 import { TopBar, Button } from './Shared'
 import AppStyles from '../AppStyles';
+const matchMusic = require('../../sounds/matchMusic.mp3')
+const victory = require('../../sounds/victoryMusic.mp3')
+const loss = require('../../sounds/lossMusic.mp3')
+const phraseChange = require('../../sounds/phraseChange.mp3')
 
 export default class Match extends React.Component {
 
@@ -12,6 +16,9 @@ export default class Match extends React.Component {
     }
 
     componentDidMount = () => {
+        this.state.matchMusic = new Audio(matchMusic)
+        this.state.matchMusic.loop = true
+        this.state.matchMusic.play()
         this.setState({interval: this.state.isBoss && setInterval(()=>this.checkTimer(), 1000)})
     }
 
@@ -34,15 +41,22 @@ export default class Match extends React.Component {
 
     choosePhrase = (choice) => {
         const correct = choice === this.props.activeSession.activePhrase
-        if(correct) onChoosePhrase(choice, this.props.activeSession.sessionName, this.props.server)
+        if(correct){
+            new Audio(phraseChange).play()
+            onChoosePhrase(choice, this.props.activeSession.sessionName, this.props.server)
+        } 
         this.setState({correct, choice})
     }
 
     getComponent = () => {
         switch(this.props.activeSession.status){
             case Constants.MatchStatus.WIN:
+                this.state.matchMusic.pause()
+                new Audio(victory).play()
                 return this.renderWin()
             case Constants.MatchStatus.LOST:
+                this.state.matchMusic.pause()
+                new Audio(loss).play()
                 return this.renderLost()
             default:
                 return this.renderInProgress()

@@ -6,7 +6,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, './build'),
         filename: 'bundle.js',
-        publicPath: '/',
+        publicPath: './',
     },
     devtool: 'eval-source-map',
     module: {
@@ -31,11 +31,11 @@ module.exports = {
             }]
         },
         {
-            test: /\.(png|svg|jpg|gif)$/,
+            test: /\.(png|svg|jpg|gif|mp3)$/,
             use: [{
                 loader: 'file-loader',
                 options: {
-                  outputPath: './',
+                  outputPath: './'
                 },
               }]
         },

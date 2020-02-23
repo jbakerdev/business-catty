@@ -2,8 +2,21 @@ import React from 'react';
 import { onMatchStart } from './uiManager/Thunks.js'
 import { TopBar } from './Shared'
 import AppStyles from '../AppStyles';
+const lobbyMusic = require('../../sounds/lobbyMusic.mp3')
 
 export default class Lobby extends React.Component {
+
+    state = { }
+
+    componentDidMount(){
+        this.state.lobby = new Audio(lobbyMusic)
+        this.state.lobby.loop = true
+        this.state.lobby.play()
+    }
+
+    componentWillUnmount(){
+        this.state.lobby.pause()
+    }
 
     startMatch = () => {
         onMatchStart(

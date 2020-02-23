@@ -1,6 +1,5 @@
 module.exports = {
   ApiUrl: 'wss://services.cryptonomical.com:2345',
-  // ApiUrl: 'ws://localhost:2345',
   ReducerActions: {
     MATCH_AVAILABLE: 'ma',
     MATCH_UPDATE: 'mu',
